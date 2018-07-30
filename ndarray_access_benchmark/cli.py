@@ -8,13 +8,15 @@ from memory_profiler import profile
 
 class Cli:
     @profile
-    def __init__(self, shape: tuple, sampling_count: int,
+    def __init__(self, shape: tuple, window_size: int,
+                 sampling_count: int,
                  result_format: str, result_path: str,
                  mmap_mode: str = None,
                  input_path: str = None):
         self._shape = shape
+        self._window_size = window_size
         self._sampling_count = sampling_count
-        self._mmap_mode = mmap_mode
+        self._mmap_mode = None if mmap_mode == 'None' else mmap_mode
         self._input_path = input_path
         self._result_path = result_path
         self._result_format = result_format
@@ -25,7 +27,8 @@ class Cli:
         else:
             test_data = TestData(input_file_path=self._input_path, mmap_mode=self._mmap_mode)
 
-        runner = BenchmarkRunner(data=test_data, sampling_count=self._sampling_count, result_path=self._result_path,
+        runner = BenchmarkRunner(data=test_data, window_size=self._window_size,
+                                 sampling_count=self._sampling_count, result_path=self._result_path,
                                  result_format=self._result_format)
         runner.run_random_access()
         if self._tmp_npy_file is not None:
@@ -38,12 +41,14 @@ class Cli:
         else:
             test_data = TestData(input_file_path=self._input_path, mmap_mode=self._mmap_mode)
 
-        runner = BenchmarkRunner(data=test_data, sampling_count=self._sampling_count, result_path=self._result_path,
+        runner = BenchmarkRunner(data=test_data, sampling_count=self._sampling_count,
+                                 window_size=self._window_size,
+                                 result_path=self._result_path,
                                  result_format=self._result_format)
         print('benchmark start')
         runner.run_random_access()
         print('benchmark finish')
-        
+
         if self._tmp_npy_file is not None:
             self._tmp_npy_file.delete_file()
             print(f'{self._tmp_npy_file.npy_file_path} was deleted')
@@ -57,19 +62,22 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--mmap_mode', '-m', type=str, default='r')
     parser.add_argument('--shape', '-s', type=int, nargs='+', default=[1000, 1000])
-    parser.add_argument('--sampling_count', '-c', type=int, default=1000)
-    parser.add_argument('--result_format', '-f', type=str, default='csv')
-    parser.add_argument('--input_path', '-i', type=str)
-    parser.add_argument('--result_path', '-r', type=str, default='./result.csv')
+    parser.add_argument('--window_size', '-ws', type=int, default=1)
+    parser.add_argument('--sampling_count', '-sc', type=int, default=1000)
+    parser.add_argument('--result_format', '-rf', type=str, default='csv')
+    parser.add_argument('--input_path', '-ip', type=str)
+    parser.add_argument('--result_path', '-rp', type=str, default='./result.csv')
     args = parser.parse_args()
     print(f'mmap_mode: {args.mmap_mode}')
     print(f'shape: {args.shape}')
+    print(f'window_size: {args.window_size}')
     print(f'sampling_count: {args.sampling_count}')
     print(f'result_format: {args.result_format}')
     print(f'input_path: {args.input_path}')
     print(f'result_path: {args.result_path}')
 
     c = Cli(shape=tuple(args.shape),
+            window_size=args.window_size,
             sampling_count=args.sampling_count,
             mmap_mode=args.mmap_mode,
             input_path=args.input_path,

@@ -21,19 +21,21 @@ And then you can see `test.csv` to your current directory.
 # options
 
 ```sh
-nabm --help
+$ nabm --help
 usage: nabm [-h] [--mmap_mode MMAP_MODE] [--shape SHAPE [SHAPE ...]]
-            [--sampling_count SAMPLING_COUNT] [--result_format RESULT_FORMAT]
-            [--input_path INPUT_PATH] [--result_path RESULT_PATH]
+            [--window_size WINDOW_SIZE] [--sampling_count SAMPLING_COUNT]
+            [--result_format RESULT_FORMAT] [--input_path INPUT_PATH]
+            [--result_path RESULT_PATH]
 
 optional arguments:
   -h, --help            show this help message and exit
   --mmap_mode MMAP_MODE, -m MMAP_MODE
   --shape SHAPE [SHAPE ...], -s SHAPE [SHAPE ...]
-  --sampling_count SAMPLING_COUNT, -c SAMPLING_COUNT
-  --result_format RESULT_FORMAT, -f RESULT_FORMAT
-  --input_path INPUT_PATH, -i INPUT_PATH
-  --result_path RESULT_PATH, -r RESULT_PATH
+  --window_size WINDOW_SIZE, -ws WINDOW_SIZE
+  --sampling_count SAMPLING_COUNT, -sc SAMPLING_COUNT
+  --result_format RESULT_FORMAT, -rf RESULT_FORMAT
+  --input_path INPUT_PATH, -ip INPUT_PATH
+  --result_path RESULT_PATH, -rp RESULT_PATH
 ```
 
 # motivation of this product
