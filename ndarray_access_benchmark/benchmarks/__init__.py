@@ -1,0 +1,1 @@
+from ndarray_access_benchmark.benchmarks import random_access
