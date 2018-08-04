@@ -1,13 +1,13 @@
 from ndarray_access_benchmark.benchmarks.random_access import RandomAccess
-import numpy as np
+from ndarray_access_benchmark.test_data import TestData
 import csv
 
 RANDOM_ACCESS = 'random_access'
-CSV_HEADER = ['id', 'accessed_index', 'elapsed_time']
+CSV_HEADER = ['id', 'accessed_index', 'elapsed_time', 'read_data_size', 'throughput']
 
 
 class BenchmarkRunner:
-    def __init__(self, data: np.array, window_size: int, sampling_count: int, result_path: str, result_format: str):
+    def __init__(self, data: TestData, window_size: int, sampling_count: int, result_path: str, result_format: str):
         self._data = data
         self._window_size = window_size
         self._sampling_count = sampling_count
@@ -20,6 +20,7 @@ class BenchmarkRunner:
     def run_benchmark(self, **kwargs):
         if kwargs['benchmark_type'] == RANDOM_ACCESS:
             result = RandomAccess.run(data=self._data, sampling_count=self._sampling_count,
+                                      nbytes=self._data.get_element(0, self._window_size).nbytes,
                                       window_size=self._window_size)
         else:
             raise ValueError(f"Invalid benchmark_type: {kwargs['benchmark_type']}")

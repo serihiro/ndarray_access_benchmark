@@ -4,11 +4,9 @@ from ndarray_access_benchmark.test_data import TestData
 from ndarray_access_benchmark.temporary_npy_file import TemporaryNpyFile
 from ndarray_access_benchmark.benchmark_runner import BenchmarkRunner
 from ndarray_access_benchmark.multiprocess_benchmark_runner import MultiProcessBenchmarkRunner
-from memory_profiler import profile
 
 
 class Cli:
-    @profile
     def __init__(self, shape: tuple, window_size: int,
                  sampling_count: int,
                  result_format: str, result_path: str,
@@ -30,6 +28,7 @@ class Cli:
             test_data = TestData(input_file_path=tmp_npy_file.npy_file_path, mmap_mode=self._mmap_mode)
         else:
             test_data = TestData(input_file_path=self._input_path, mmap_mode=self._mmap_mode)
+        print(f'test_data 1 instance nbytes: {test_data.get_element(0,1).nbytes}')
 
         if self._process_size is None:
             runner = BenchmarkRunner(data=test_data,

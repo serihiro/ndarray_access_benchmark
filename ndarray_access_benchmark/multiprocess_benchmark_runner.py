@@ -1,15 +1,13 @@
 from ndarray_access_benchmark.benchmarks.random_access import RandomAccess
 from ndarray_access_benchmark.benchmark_runner import BenchmarkRunner
+from ndarray_access_benchmark.benchmark_runner import RANDOM_ACCESS as RANDOM_ACCESS
+from ndarray_access_benchmark.test_data import TestData
 import multiprocessing
 import os
-import numpy as np
-
-RANDOM_ACCESS = 'random_access'
-CSV_HEADER = ['id', 'accessed_index', 'elapsed_time']
 
 
 class MultiProcessBenchmarkRunner(BenchmarkRunner):
-    def __init__(self, data: np.array, window_size: int, sampling_count: int,
+    def __init__(self, data: TestData, window_size: int, sampling_count: int,
                  result_path: str, result_format: str, process_size: int):
         self._process_size = process_size
         super(MultiProcessBenchmarkRunner, self).__init__(data=data, window_size=window_size,
@@ -35,6 +33,7 @@ class MultiProcessBenchmarkRunner(BenchmarkRunner):
 
     def __execute_benchmark_process(self, benchmark, process_id):
         result = benchmark.run(data=self._data, sampling_count=self._sampling_count,
+                               nbytes=self._data.get_element(0, self._window_size).nbytes,
                                window_size=self._window_size)
 
         os.makedirs(self._result_path, exist_ok=True)
