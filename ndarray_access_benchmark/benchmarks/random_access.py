@@ -12,7 +12,7 @@ class RandomAccess:
             index = random.randint(0, max_index)
             start = time()
             # load all elements from the ndarray
-            data.get_element(index=index, window_size=window_size).__str__()
+            data.get_element(index=index, window_size=window_size).tolist()
             end = time()
 
             # sec
