@@ -19,7 +19,7 @@ class RandomAccess:
             elapsed_time = end - start
 
             # MiB/sec
-            throughput = (nbytes / (1024 ** 3)) / elapsed_time
+            throughput = (nbytes / (1024 ** 2)) / elapsed_time
 
             result.append([i, index, elapsed_time * 1000, nbytes, throughput])
 
