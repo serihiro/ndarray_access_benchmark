@@ -5,7 +5,7 @@ from ndarray_access_benchmark.test_data import TestData
 
 class RandomAccess:
     @classmethod
-    def run(cls, data: TestData, sampling_count: int, nbytes: int, window_size: int = 1, ) -> list:
+    def run(cls, data: TestData, sampling_count: int, nbytes: int, window_size: int = 1) -> list:
         result = []
         max_index = data.shape[0] - 1 - (window_size - 1)
         for i in range(sampling_count):
@@ -21,6 +21,6 @@ class RandomAccess:
             # MiB/sec
             throughput = (nbytes / (1024 ** 2)) / elapsed_time
 
-            result.append([i, index, elapsed_time * 1000, nbytes, throughput])
+            result.append([i, index, elapsed_time, nbytes, throughput])
 
         return result
