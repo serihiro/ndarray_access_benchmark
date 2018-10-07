@@ -17,5 +17,8 @@ class TestData:
     def data(self):
         return self._ndarray.data
 
-    def get_element(self, index: int, window_size: int) -> np.array:
-        return self._ndarray[index:index + window_size]
+    def get_element(self, index: int, window_size: int = 0) -> np.array:
+        if window_size <= 1:
+            return self._ndarray[index]
+        else:
+            return self._ndarray[index:index + window_size]
